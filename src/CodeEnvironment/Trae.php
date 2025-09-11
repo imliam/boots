@@ -32,6 +32,7 @@ class Trae extends CodeEnvironment implements Agent, McpClient
             ],
             Platform::Linux => [
                 // Trae is not supported on Linux
+                'files' => [],
             ],
         };
     }

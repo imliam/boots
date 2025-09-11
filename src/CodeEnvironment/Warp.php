@@ -27,10 +27,7 @@ class Warp extends CodeEnvironment implements Agent
                 ],
             ],
             Platform::Linux => [
-                'command' => [
-                    'which warp-terminal',
-                    'which warp-terminal-preview',
-                ],
+                'command' => 'which warp-terminal',
             ],
             Platform::Windows => [
                 'paths' => [
