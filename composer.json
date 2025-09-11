@@ -1,0 +1,40 @@
+{
+    "name": "imliam/boots",
+    "description": "Bootstrap your AI guidelines files",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Boots\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Liam Hammett",
+            "email": "liam@liamhammett.com"
+        }
+    ],
+    "require": {
+        "symfony/console": "^7.3",
+        "laravel/prompts": "^0.3.6",
+        "illuminate/collections": "^12.28",
+        "symfony/process": "^7.3"
+    },
+    "require-dev": {
+        "pestphp/pest": "^4.1",
+        "laravel/pint": "^1.24"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "bin": [
+        "boots"
+    ]
+}
