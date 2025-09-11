@@ -218,7 +218,7 @@ class BootsCommand extends Command
             }
         }
 
-        if (!$this->input->isInteractive() && $options->isEmpty()) {
+        if (! $this->input->isInteractive() && $options->isEmpty()) {
             note(' No compatible code environments detected for guideline installation.');
 
             return collect();
