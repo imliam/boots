@@ -43,7 +43,7 @@ abstract class CodeEnvironment
 
     public function getArtisanPath(): string
     {
-        return $this->useAbsolutePathForMcp() ? File::projectBasePath('artisan') : 'artisan';
+        return $this->useAbsolutePathForMcp() ? File::basePath('artisan') : 'artisan';
     }
 
     /**

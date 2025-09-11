@@ -7,9 +7,9 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 beforeEach(function () {
     // Clean up any test files
-    $testDirs = ['.ai', '.github', '.cursor', '.clinerules'];
+    $testDirs = ['.ai', '.github/copilot-instructions.md', '.cursor', '.clinerules'];
     foreach ($testDirs as $dir) {
-        $path = File::projectBasePath($dir);
+        $path = File::basePath($dir);
         if (is_dir($path)) {
             exec("rm -rf {$path}");
         }
@@ -18,9 +18,9 @@ beforeEach(function () {
 
 afterEach(function () {
     // Clean up any test files
-    $testDirs = ['.ai', '.github', '.cursor', '.clinerules'];
+    $testDirs = ['.ai', '.github/copilot-instructions.md', '.cursor', '.clinerules'];
     foreach ($testDirs as $dir) {
-        $path = File::projectBasePath($dir);
+        $path = File::basePath($dir);
         if (is_dir($path)) {
             exec("rm -rf {$path}");
         }
@@ -29,7 +29,7 @@ afterEach(function () {
 
 it('auto-detects agents based on existing .ai/guidelines files', function () {
     // Create some guideline files in .ai/guidelines/
-    $aiDir = File::projectBasePath('.ai/guidelines');
+    $aiDir = File::basePath('.ai/guidelines');
     mkdir($aiDir, 0755, true);
     file_put_contents($aiDir.'/copilot.md', '# Copilot Guidelines');
     file_put_contents($aiDir.'/cursor.md', '# Cursor Guidelines');
@@ -52,18 +52,18 @@ it('auto-detects agents based on existing .ai/guidelines files', function () {
 
     // Verify that the agents were auto-detected by checking if their guideline files were updated
     // The command should have combined the main.md content into the agent-specific files
-    expect(file_exists(File::projectBasePath('.github/copilot-instructions.md')))->toBeTrue();
-    expect(file_exists(File::projectBasePath('.cursor/rules/boots.mdc')))->toBeTrue();
-    expect(file_exists(File::projectBasePath('.clinerules/boots.md')))->toBeTrue();
+    expect(file_exists(File::basePath('.github/copilot-instructions.md')))->toBeTrue();
+    expect(file_exists(File::basePath('.cursor/rules/boots.mdc')))->toBeTrue();
+    expect(file_exists(File::basePath('.clinerules/boots.md')))->toBeTrue();
 });
 
 it('combines traditional detection with .ai/guidelines detection', function () {
     // Create a traditional detection scenario (project-based detection)
-    $cursorDir = File::projectBasePath('.cursor');
+    $cursorDir = File::basePath('.cursor');
     mkdir($cursorDir, 0755, true);
 
     // Create a guideline file for a different agent
-    $aiDir = File::projectBasePath('.ai/guidelines');
+    $aiDir = File::basePath('.ai/guidelines');
     mkdir($aiDir, 0755, true);
     file_put_contents($aiDir.'/copilot.md', '# Copilot Guidelines');
     file_put_contents($aiDir.'/main.md', '# Main Guidelines');
@@ -81,16 +81,16 @@ it('combines traditional detection with .ai/guidelines detection', function () {
     expect($commandTester->getStatusCode())->toBe(0);
 
     // Verify both agents were detected - cursor from project detection, copilot from .ai/guidelines
-    expect(file_exists(File::projectBasePath('.github/copilot-instructions.md')))->toBeTrue();
-    expect(file_exists(File::projectBasePath('.cursor/rules/boots.mdc')))->toBeTrue();
+    expect(file_exists(File::basePath('.github/copilot-instructions.md')))->toBeTrue();
+    expect(file_exists(File::basePath('.cursor/rules/boots.mdc')))->toBeTrue();
 });
 
 it('does not duplicate agents detected by multiple methods', function () {
     // Create both traditional detection and .ai/guidelines file for the same agent
-    $cursorDir = File::projectBasePath('.cursor');
+    $cursorDir = File::basePath('.cursor');
     mkdir($cursorDir, 0755, true);
 
-    $aiDir = File::projectBasePath('.ai/guidelines');
+    $aiDir = File::basePath('.ai/guidelines');
     mkdir($aiDir, 0755, true);
     file_put_contents($aiDir.'/cursor.md', '# Cursor Guidelines');
     file_put_contents($aiDir.'/main.md', '# Main Guidelines');
@@ -108,5 +108,5 @@ it('does not duplicate agents detected by multiple methods', function () {
     expect($commandTester->getStatusCode())->toBe(0);
 
     // Verify cursor was only processed once by checking it created the guideline file
-    expect(file_exists(File::projectBasePath('.cursor/rules/boots.mdc')))->toBeTrue();
+    expect(file_exists(File::basePath('.cursor/rules/boots.mdc')))->toBeTrue();
 });

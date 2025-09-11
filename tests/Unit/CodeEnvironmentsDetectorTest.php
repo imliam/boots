@@ -41,7 +41,7 @@ test('discoverProjectInstalledCodeEnvironments detects environments in project',
     expect($environments)->toContain('VS Code');
 
     // Cleanup
-    rmdir($tempDir.'/.vscode');
+    unlink($tempDir.'/.vscode/copilot-instructions.md');
     rmdir($tempDir);
 })->skip('Detection logic may vary - checking that method returns array is sufficient');
 

@@ -51,7 +51,7 @@ test('FileDetectionStrategy uses current working directory as default base path'
 
     // Change working directory to project root
     $originalCwd = getcwd();
-    chdir(File::projectBasePath());
+    chdir(File::basePath());
 
     $result = $strategy->detect($config);
 

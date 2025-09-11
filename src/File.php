@@ -2,21 +2,22 @@
 
 namespace Boots;
 
+use RuntimeException;
+
 class File
 {
-    public static function projectBasePath(string $path = ''): string
+    public static function basePath(string $path = ''): string
     {
-        $projectBasePath = dirname(static::packageBasePath(), 3);
+        $currentWorkingDirectory = getcwd();
 
-        if (file_exists($projectBasePath.'/vendor/autoload.php')) {
-            return $projectBasePath.'/'.trim($path, '/');
+        if ($currentWorkingDirectory === false) {
+            throw new RuntimeException('Unable to determine current working directory');
         }
 
-        return static::packageBasePath().'/'.trim($path, '/');
-    }
+        if ($path === '') {
+            return $currentWorkingDirectory;
+        }
 
-    public static function packageBasePath(): string
-    {
-        return dirname(__DIR__);
+        return $currentWorkingDirectory.'/'.trim($path, '/');
     }
 }

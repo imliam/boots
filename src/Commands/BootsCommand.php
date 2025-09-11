@@ -96,21 +96,21 @@ class BootsCommand extends Command
 
     private function getProjectName(): string
     {
-        if (file_exists(File::projectBasePath('composer.json'))) {
-            $composer = json_decode(file_get_contents(File::projectBasePath('composer.json')), true);
+        if (file_exists(File::basePath('composer.json'))) {
+            $composer = json_decode(file_get_contents(File::basePath('composer.json')), true);
             if (isset($composer['name']) && is_string($composer['name'])) {
                 return $composer['name'];
             }
         }
 
-        if (file_exists(File::projectBasePath('package.json'))) {
-            $package = json_decode(file_get_contents(File::projectBasePath('package.json')), true);
+        if (file_exists(File::basePath('package.json'))) {
+            $package = json_decode(file_get_contents(File::basePath('package.json')), true);
             if (isset($package['name']) && is_string($package['name'])) {
                 return $package['name'];
             }
         }
 
-        return basename(File::projectBasePath());
+        return basename(File::basePath());
     }
 
     private function displayBootsHeader(): void
@@ -135,7 +135,7 @@ class BootsCommand extends Command
     private function discoverEnvironment(): void
     {
         $this->systemInstalledCodeEnvironments = $this->codeEnvironmentsDetector->discoverSystemInstalledCodeEnvironments();
-        $this->projectInstalledCodeEnvironments = $this->codeEnvironmentsDetector->discoverProjectInstalledCodeEnvironments(File::projectBasePath());
+        $this->projectInstalledCodeEnvironments = $this->codeEnvironmentsDetector->discoverProjectInstalledCodeEnvironments(File::basePath());
     }
 
     private function collectInstallationPreferences(): void
@@ -219,7 +219,7 @@ class BootsCommand extends Command
         }
 
         foreach ($availableEnvironments as $environment) {
-            $guidelinesFile = File::projectBasePath(".ai/guidelines/{$environment->name()}.md");
+            $guidelinesFile = File::basePath(".ai/guidelines/{$environment->name()}.md");
             if (file_exists($guidelinesFile) && ! in_array(get_class($environment), $detectedClasses)) {
                 $detectedClasses[] = get_class($environment);
             }

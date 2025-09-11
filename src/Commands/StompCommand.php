@@ -2,17 +2,17 @@
 
 namespace Boots\Commands;
 
-use Boots\File;
-use Boots\Contracts\Agent;
-use function Laravel\Prompts\info;
-use function Laravel\Prompts\note;
 use Boots\CodeEnvironmentsDetector;
-use function Laravel\Prompts\error;
-
-use Symfony\Component\Console\Command\Command;
+use Boots\Contracts\Agent;
+use Boots\File;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+
+use function Laravel\Prompts\error;
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\note;
 
 #[AsCommand(
     name: 'stomp',
@@ -59,7 +59,7 @@ class StompCommand extends Command
                 continue;
             }
 
-            $currentPath = File::projectBasePath($environment->guidelinesPath());
+            $currentPath = File::basePath($environment->guidelinesPath());
 
             // Skip if the file doesn't exist
             if (! file_exists($currentPath)) {
@@ -67,7 +67,7 @@ class StompCommand extends Command
             }
 
             $agentName = $environment->name();
-            $newPath = File::projectBasePath(".ai/guidelines/{$agentName}.md");
+            $newPath = File::basePath(".ai/guidelines/{$agentName}.md");
 
             // Create the target directory if it doesn't exist
             $targetDir = dirname($newPath);
@@ -102,6 +102,7 @@ class StompCommand extends Command
             $backupPath = $destination.'.backup.'.time();
             if (! rename($destination, $backupPath)) {
                 error("Failed to backup existing file at {$destination}");
+
                 return false;
             }
             info("Backed up existing file to {$backupPath}");
@@ -120,10 +121,10 @@ class StompCommand extends Command
 
     private function cleanupEmptyDirectories(string $dir): void
     {
-        $projectBasePath = File::projectBasePath();
+        $basePath = File::basePath();
 
         // Don't try to remove the project base directory or above
-        if ($dir === $projectBasePath || strpos($dir, $projectBasePath) !== 0) {
+        if ($dir === $basePath || strpos($dir, $basePath) !== 0) {
             return;
         }
 

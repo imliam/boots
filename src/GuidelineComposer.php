@@ -25,7 +25,7 @@ class GuidelineComposer
 
     public function customGuidelinePath(string $path = ''): string
     {
-        return File::projectBasePath($this->userGuidelineDir.'/'.ltrim($path, '/'));
+        return File::basePath($this->userGuidelineDir.'/'.ltrim($path, '/'));
     }
 
     /**
