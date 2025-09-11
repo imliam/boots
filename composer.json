@@ -1,6 +1,6 @@
 {
     "name": "imliam/boots",
-    "description": "Bootstrap your AI guidelines files",
+    "description": "Give your AI guidelines some boots, so they can walk from one agent to the next",
     "type": "project",
     "license": "MIT",
     "autoload": {

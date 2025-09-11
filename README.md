@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/imliam/boots"><img src="https://img.shields.io/packagist/l/imliam/boots?v=1" alt="License"></a>
 </p>
 
-Give your AI agents some boots, so they can walk from one agent to the next.
+Give your AI guidelines some boots, so they can walk from one agent to the next.
 
 ## Introduction
 
