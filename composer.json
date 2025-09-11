@@ -23,7 +23,8 @@
         "symfony/console": "^7.3",
         "laravel/prompts": "^0.3.6",
         "illuminate/collections": "^12.28",
-        "symfony/process": "^7.3"
+        "symfony/process": "^7.3",
+        "symfony/finder": "^7.3"
     },
     "require-dev": {
         "pestphp/pest": "^4.1",
