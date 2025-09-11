@@ -30,13 +30,13 @@ afterEach(function () {
 it('can find and move existing guideline files', function () {
     // Create test guideline files
     $githubDir = File::basePath('.github');
-    if (!file_exists($githubDir)) {
+    if (! file_exists($githubDir)) {
         mkdir($githubDir, 0755, true);
     }
     file_put_contents($githubDir.'/copilot-instructions.md', '<guidelines>Test Copilot instructions</guidelines>');
 
     $cursorDir = File::basePath('.cursor/rules');
-    if (!file_exists($cursorDir)) {
+    if (! file_exists($cursorDir)) {
         mkdir($cursorDir, 0755, true);
     }
     file_put_contents($cursorDir.'/boots.mdc', '# Test Cursor rules');
