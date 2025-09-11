@@ -12,8 +12,7 @@
 */
 
 pest()->extend(Tests\TestCase::class)
- // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
-    ->in('Feature');
+    ->in('Unit');
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +40,20 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function temporaryDirectory(): string
 {
-    // ..
+    $tempDir = sys_get_temp_dir().'/boots_test_'.uniqid();
+    if (! is_dir($tempDir)) {
+        mkdir($tempDir, 0755, true);
+    }
+
+    return $tempDir;
+}
+
+function createTempFile(string $content = '', string $extension = 'md'): string
+{
+    $tempFile = tempnam(sys_get_temp_dir(), 'boots_test_').'.'.$extension;
+    file_put_contents($tempFile, $content);
+
+    return $tempFile;
 }
