@@ -2,10 +2,15 @@
 
 namespace Boots\Commands;
 
-use Boots\CodeEnvironmentsDetector;
 use Boots\File;
-use Symfony\Component\Console\Attribute\AsCommand;
+use Boots\Contracts\Agent;
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\note;
+use Boots\CodeEnvironmentsDetector;
+use function Laravel\Prompts\error;
+
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -30,7 +35,7 @@ class StompCommand extends Command
     {
         $this->input = $input;
         $this->output = $output;
-        $this->codeEnvironmentsDetector = new CodeEnvironmentsDetector();
+        $this->codeEnvironmentsDetector = new CodeEnvironmentsDetector;
 
         $this->displayStompHeader();
         $this->findAndMoveGuidelineFiles();
@@ -40,8 +45,7 @@ class StompCommand extends Command
 
     private function displayStompHeader(): void
     {
-        $this->output->writeln('<info>🥾 Boots Stomp</info>');
-        $this->output->writeln('<comment>Finding and moving existing guideline files to .ai/guidelines/</comment>');
+        note('🥾 Finding and stomping existing guideline files into .ai/guidelines/');
     }
 
     private function findAndMoveGuidelineFiles(): void
@@ -51,7 +55,7 @@ class StompCommand extends Command
 
         foreach ($allEnvironments as $environment) {
             // Only process environments that implement Agent interface
-            if (! $environment instanceof \Boots\Contracts\Agent) {
+            if (! $environment instanceof Agent) {
                 continue;
             }
 
@@ -69,7 +73,7 @@ class StompCommand extends Command
             $targetDir = dirname($newPath);
             if (! is_dir($targetDir)) {
                 if (! mkdir($targetDir, 0755, true)) {
-                    $this->output->writeln("<error>Failed to create directory: {$targetDir}</error>");
+                    error("Failed to create directory: {$targetDir}");
 
                     continue;
                 }
@@ -77,17 +81,17 @@ class StompCommand extends Command
 
             // Move the file
             if ($this->moveFile($currentPath, $newPath)) {
-                $this->output->writeln("<info>✓ Moved {$environment->guidelinesPath()} → .ai/guidelines/{$agentName}.md</info>");
+                info("✓ Moved {$environment->guidelinesPath()} → .ai/guidelines/{$agentName}.md");
                 $movedFiles++;
             } else {
-                $this->output->writeln("<error>✗ Failed to move {$environment->guidelinesPath()}</error>");
+                error("✗ Failed to move {$environment->guidelinesPath()}");
             }
         }
 
         if ($movedFiles === 0) {
-            $this->output->writeln('<comment>No existing guideline files found to move.</comment>');
+            note('No existing guideline files found to move.');
         } else {
-            $this->output->writeln("<info>Successfully moved {$movedFiles} guideline file(s) to .ai/guidelines/</info>");
+            info("Successfully moved {$movedFiles} guideline file(s) to .ai/guidelines/");
         }
     }
 
@@ -97,11 +101,10 @@ class StompCommand extends Command
         if (file_exists($destination)) {
             $backupPath = $destination.'.backup.'.time();
             if (! rename($destination, $backupPath)) {
-                $this->output->writeln("<error>Failed to backup existing file at {$destination}</error>");
-
+                error("Failed to backup existing file at {$destination}");
                 return false;
             }
-            $this->output->writeln("<info>Backed up existing file to {$backupPath}</info>");
+            info("Backed up existing file to {$backupPath}");
         }
 
         // Move the file

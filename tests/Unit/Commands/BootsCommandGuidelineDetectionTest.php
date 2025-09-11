@@ -31,16 +31,16 @@ it('auto-detects agents based on existing .ai/guidelines files', function () {
     // Create some guideline files in .ai/guidelines/
     $aiDir = File::projectBasePath('.ai/guidelines');
     mkdir($aiDir, 0755, true);
-    file_put_contents($aiDir . '/copilot.md', '# Copilot Guidelines');
-    file_put_contents($aiDir . '/cursor.md', '# Cursor Guidelines');
-    file_put_contents($aiDir . '/cline.md', '# Cline Guidelines');
+    file_put_contents($aiDir.'/copilot.md', '# Copilot Guidelines');
+    file_put_contents($aiDir.'/cursor.md', '# Cursor Guidelines');
+    file_put_contents($aiDir.'/cline.md', '# Cline Guidelines');
 
     // Create a main guidelines file that will be combined
-    file_put_contents($aiDir . '/main.md', '# Main Guidelines\nThese are the main guidelines.');
+    file_put_contents($aiDir.'/main.md', '# Main Guidelines\nThese are the main guidelines.');
 
     // Run the boots command in non-interactive mode
-    $application = new Application();
-    $application->add(new BootsCommand());
+    $application = new Application;
+    $application->add(new BootsCommand);
 
     $command = $application->find('boots');
     $commandTester = new CommandTester($command);
@@ -65,12 +65,12 @@ it('combines traditional detection with .ai/guidelines detection', function () {
     // Create a guideline file for a different agent
     $aiDir = File::projectBasePath('.ai/guidelines');
     mkdir($aiDir, 0755, true);
-    file_put_contents($aiDir . '/copilot.md', '# Copilot Guidelines');
-    file_put_contents($aiDir . '/main.md', '# Main Guidelines');
+    file_put_contents($aiDir.'/copilot.md', '# Copilot Guidelines');
+    file_put_contents($aiDir.'/main.md', '# Main Guidelines');
 
     // Run the boots command in non-interactive mode
-    $application = new Application();
-    $application->add(new BootsCommand());
+    $application = new Application;
+    $application->add(new BootsCommand);
 
     $command = $application->find('boots');
     $commandTester = new CommandTester($command);
@@ -92,12 +92,12 @@ it('does not duplicate agents detected by multiple methods', function () {
 
     $aiDir = File::projectBasePath('.ai/guidelines');
     mkdir($aiDir, 0755, true);
-    file_put_contents($aiDir . '/cursor.md', '# Cursor Guidelines');
-    file_put_contents($aiDir . '/main.md', '# Main Guidelines');
+    file_put_contents($aiDir.'/cursor.md', '# Cursor Guidelines');
+    file_put_contents($aiDir.'/main.md', '# Main Guidelines');
 
     // Run the boots command in non-interactive mode
-    $application = new Application();
-    $application->add(new BootsCommand());
+    $application = new Application;
+    $application->add(new BootsCommand);
 
     $command = $application->find('boots');
     $commandTester = new CommandTester($command);

@@ -1,4 +1,4 @@
-# Boots 👢 🥾
+# Boots 🥾
 
 <p>
 <a href="https://github.com/imliam/boots/actions"><img src="https://github.com/imliam/boots/workflows/tests/badge.svg" alt="Build Status"></a>

@@ -145,7 +145,7 @@ class BootsCommand extends Command
 
     private function outro(): void
     {
-        $text = 'Enjoy the boots! 🥾 👢 Now take your next steps with AI!';
+        $text = 'Enjoy the boots! 🥾 Now take your next steps with AI!';
         $paddingLength = (int) (floor(($this->terminal->cols() - mb_strlen($text)) / 2)) - 2;
 
         echo "\033[42m\033[2K".str_repeat(' ', max(0, $paddingLength)); // Make the entire line have a green background
@@ -220,7 +220,7 @@ class BootsCommand extends Command
 
         foreach ($availableEnvironments as $environment) {
             $guidelinesFile = File::projectBasePath(".ai/guidelines/{$environment->name()}.md");
-            if (file_exists($guidelinesFile) && !in_array(get_class($environment), $detectedClasses)) {
+            if (file_exists($guidelinesFile) && ! in_array(get_class($environment), $detectedClasses)) {
                 $detectedClasses[] = get_class($environment);
             }
         }
@@ -265,8 +265,11 @@ class BootsCommand extends Command
         $composer = new GuidelineComposer;
         $guidelines = $composer->guidelines();
 
-        note('');
-        info(sprintf(' Adding %d guidelines to your selected agents', $guidelines->count()));
+        $guidelinesText = $guidelines->count() === 1
+            ? 'guideline'
+            : 'guidelines';
+
+        info(sprintf(' Adding %d %s to your selected agents', $guidelines->count(), $guidelinesText));
         DisplayHelper::grid(
             $guidelines
                 ->map(fn ($guideline, string $key) => $key.($guideline['custom'] ? '*' : ''))
@@ -275,8 +278,6 @@ class BootsCommand extends Command
                 ->toArray(),
             $this->terminal->cols()
         );
-        note('');
-        usleep(750000);
 
         $failed = [];
         $composedAiGuidelines = $composer->compose();
@@ -286,7 +287,7 @@ class BootsCommand extends Command
         foreach ($this->selectedTargetAgents as $agent) {
             $agentName = $agent->agentName();
             $displayAgentName = str_pad($agentName, $longestAgentName);
-            note("  {$displayAgentName}... ");
+            $this->output->write("  {$displayAgentName} ... ");
             /** @var Agent $agent */
             try {
                 (new GuidelineWriter($agent))
@@ -298,8 +299,6 @@ class BootsCommand extends Command
                 note($this->redCross);
             }
         }
-
-        note('');
 
         if (count($failed) > 0) {
             error(sprintf('✗ Failed to install guidelines to %d agent%s:',
