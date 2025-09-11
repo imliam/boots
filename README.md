@@ -43,9 +43,16 @@ When run, Boots will prompt you to ask which agents you wish to generate guideli
 
 Boots will look for a `./.ai/guidelines` directory in your current working directory and process all files within it, compiling them into agent-specific guidelines.
 
-
 > [!IMPORTANT]
 > You should put all your project's AI guidelines files in the `./.ai/guidelines` directory - Boots will handle the rest.
+
+## Migrating Existing Guidelines
+
+If you already have AI guideline files scattered throughout your project (like `.github/copilot-instructions.md`, `.cursor/rules/boots.mdc`, etc.), you can use the `stomp` command to automatically find and move them to the standardized `.ai/guidelines/` structure, giving you a single source of truth you can then clean up as needed.
+
+```bash
+boots stomp
+```
 
 The following agents are supported out of the box:
 

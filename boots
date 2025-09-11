@@ -20,6 +20,7 @@ if (isset($GLOBALS['_composer_autoload_path'])) {
 $application = new Symfony\Component\Console\Application();
 
 $application->add(new Boots\Commands\BootsCommand());
-$application->setDefaultCommand('boots', true);
+$application->add(new Boots\Commands\StompCommand());
+$application->setDefaultCommand('boots', false);
 
 $application->run();

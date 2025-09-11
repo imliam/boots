@@ -218,6 +218,13 @@ class BootsCommand extends Command
             }
         }
 
+        foreach ($availableEnvironments as $environment) {
+            $guidelinesFile = File::projectBasePath(".ai/guidelines/{$environment->name()}.md");
+            if (file_exists($guidelinesFile) && !in_array(get_class($environment), $detectedClasses)) {
+                $detectedClasses[] = get_class($environment);
+            }
+        }
+
         if (! $this->input->isInteractive() && $options->isEmpty()) {
             note(' No compatible code environments detected for guideline installation.');
 

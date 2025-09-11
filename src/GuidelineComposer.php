@@ -30,7 +30,6 @@ class GuidelineComposer
 
     /**
      * Static method to compose guidelines from a collection.
-     * Can be used without Laravel dependencies.
      *
      * @param  Collection<string, array{content: string, name: string, path: ?string, custom: bool}>  $guidelines
      */
