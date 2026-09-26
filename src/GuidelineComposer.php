@@ -65,7 +65,7 @@ class GuidelineComposer
     /**
      * Key is the 'guideline key' and value is the rendered content.
      *
-     * @return \Illuminate\Support\Collection<string, array>
+     * @return Collection<string, array>
      */
     protected function find(): Collection
     {

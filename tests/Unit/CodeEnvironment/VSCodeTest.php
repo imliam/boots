@@ -1,6 +1,7 @@
 <?php
 
 use Boots\CodeEnvironment\VSCode;
+use Boots\Contracts\McpClient;
 use Boots\Enums\Platform;
 
 test('VSCode has correct name and display name', function () {
@@ -13,7 +14,7 @@ test('VSCode has correct name and display name', function () {
 test('VSCode implements McpClient interface', function () {
     $vscode = new VSCode;
 
-    expect($vscode)->toBeInstanceOf(\Boots\Contracts\McpClient::class);
+    expect($vscode)->toBeInstanceOf(McpClient::class);
     expect($vscode->isMcpClient())->toBeTrue();
 });
 

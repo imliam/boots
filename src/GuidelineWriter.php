@@ -18,7 +18,7 @@ class GuidelineWriter
     public function __construct(protected Agent $agent) {}
 
     /**
-     * @return \Boots\GuidelineWriter::NEW|\Boots\GuidelineWriter::REPLACED|\Boots\GuidelineWriter::FAILED|\Boots\GuidelineWriter::NOOP
+     * @return GuidelineWriter::NEW|GuidelineWriter::REPLACED|GuidelineWriter::FAILED|GuidelineWriter::NOOP
      */
     public function write(string $guidelines): int
     {

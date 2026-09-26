@@ -1,6 +1,8 @@
 <?php
 
 use Boots\CodeEnvironment\Cursor;
+use Boots\Contracts\Agent;
+use Boots\Contracts\McpClient;
 use Boots\Enums\Platform;
 
 test('Cursor has correct name and display name', function () {
@@ -13,8 +15,8 @@ test('Cursor has correct name and display name', function () {
 test('Cursor implements both Agent and McpClient interfaces', function () {
     $cursor = new Cursor;
 
-    expect($cursor)->toBeInstanceOf(\Boots\Contracts\Agent::class);
-    expect($cursor)->toBeInstanceOf(\Boots\Contracts\McpClient::class);
+    expect($cursor)->toBeInstanceOf(Agent::class);
+    expect($cursor)->toBeInstanceOf(McpClient::class);
     expect($cursor->isAgent())->toBeTrue();
     expect($cursor->isMcpClient())->toBeTrue();
 });

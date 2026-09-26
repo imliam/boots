@@ -2,12 +2,13 @@
 
 use Boots\CodeEnvironment\CodeEnvironment;
 use Boots\CodeEnvironmentsDetector;
+use Illuminate\Support\Collection;
 
 test('getCodeEnvironments returns collection of code environments', function () {
     $detector = new CodeEnvironmentsDetector;
     $environments = $detector->getCodeEnvironments();
 
-    expect($environments)->toBeInstanceOf(\Illuminate\Support\Collection::class);
+    expect($environments)->toBeInstanceOf(Collection::class);
     expect($environments->count())->toBeGreaterThan(0);
 
     $environments->each(function ($environment) {
